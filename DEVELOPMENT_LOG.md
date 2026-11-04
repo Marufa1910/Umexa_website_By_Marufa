@@ -81,7 +81,7 @@
 - **Building needs the database:** public pages are prerendered from it, so `DATABASE_URL` must be reachable at build time.
 - **Service list:** the brief's 9 services appear as 7 pages, matching the homepage list. 2D Animation sits inside Motion
   Graphics, and Web Design and Software Development share Web & Software.
-- **Git:** the folder is not a repository yet. Nothing has been committed.
+- **Git:** local repository on `main`, with no remote yet, so nothing is backed up off this computer. Commit identity is a placeholder until a real name and email are set.
 
 ## Admin notes
 
