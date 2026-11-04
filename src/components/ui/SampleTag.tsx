@@ -7,7 +7,7 @@ export function SampleTag({
   className?: string;
 }) {
   return (
-    <span className={`slate inline-block bg-ink/85 px-2 py-1 text-paper ${className}`}>
+    <span className={`slate inline-block bg-canvas/85 px-2 py-1 text-fg ${className}`}>
       {children}
     </span>
   );

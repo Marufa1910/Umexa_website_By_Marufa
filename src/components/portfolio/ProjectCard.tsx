@@ -24,6 +24,8 @@ type Props = {
   media?: string;
   sizes?: string;
   showFeatured?: boolean;
+  /** For a card likely to be the first thing seen */
+  priority?: boolean;
 };
 
 /** Project tile. A mouse hover plays a short muted loop, fetched only on first hover. */
@@ -32,6 +34,7 @@ export function ProjectCard({
   media = "aspect-[4/3]",
   sizes = "(min-width: 768px) 50vw, 100vw",
   showFeatured = false,
+  priority = false,
 }: Props) {
   const [wantsVideo, setWantsVideo] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -62,6 +65,7 @@ export function ProjectCard({
           alt={project.alt}
           fill
           sizes={sizes}
+          priority={priority}
           className="object-cover transition-transform duration-[1200ms] ease-studio group-hover:scale-[1.04]"
         />
         {wantsVideo && project.video && (
@@ -80,16 +84,16 @@ export function ProjectCard({
         <div className="absolute top-3 left-3 flex gap-1">
           {project.isSample && <SampleTag />}
           {showFeatured && project.featured && (
-            <span className="slate inline-block bg-lime px-2 py-1 text-ink">Featured</span>
+            <span className="slate inline-block bg-signal px-2 py-1 text-canvas">Featured</span>
           )}
         </div>
-        <span className="absolute right-0 bottom-0 flex size-12 translate-y-2 items-center justify-center bg-lime text-ink opacity-0 transition-all duration-500 ease-studio group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 lg:size-16">
+        <span className="absolute right-0 bottom-0 flex size-12 translate-y-2 items-center justify-center bg-signal text-canvas opacity-0 transition-all duration-500 ease-studio group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 lg:size-16">
           <ArrowUpRight aria-hidden className="size-5 lg:size-6" />
         </span>
       </div>
       <div className="mt-4 flex items-start justify-between gap-4">
         <div>
-          <h3 className="font-display text-2xl tracking-tight transition-colors duration-300 group-hover:text-lime lg:text-3xl">
+          <h3 className="font-display text-2xl tracking-tight transition-colors duration-300 group-hover:text-accent lg:text-3xl">
             {project.title}
           </h3>
           <p className="mt-1 text-sm text-muted">{project.client}</p>

@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Terms",
-  description: "The terms that apply when you use the Movexa website.",
+  description: "The terms that apply when you use the UMEXA website.",
   path: "/terms",
 });
 
@@ -17,7 +17,7 @@ const sections: LegalSection[] = [
   {
     heading: "Our content",
     body: [
-      "The design, text, images and video on this website belong to Movexa or its licensors, unless stated otherwise. You may view and share links to it, but may not reuse it commercially without written permission.",
+      "The design, text, images and video on this website belong to UMEXA or its licensors, unless stated otherwise. You may view and share links to it, but may not reuse it commercially without written permission.",
     ],
   },
   {
@@ -35,7 +35,7 @@ const sections: LegalSection[] = [
   {
     heading: "Liability",
     body: [
-      "To the extent permitted by law, Movexa is not liable for indirect or consequential loss arising from your use of this website.",
+      "To the extent permitted by law, UMEXA is not liable for indirect or consequential loss arising from your use of this website.",
     ],
   },
   {

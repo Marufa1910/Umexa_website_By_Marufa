@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowUpRight, LoaderCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -12,19 +11,29 @@ import {
   type ComponentProps,
   type ReactNode,
 } from "react";
-import { useForm, useWatch, type UseFormRegisterReturn } from "react-hook-form";
+import { useForm, useWatch, type Resolver, type UseFormRegisterReturn } from "react-hook-form";
 import { submitInquiry } from "@/actions/inquiry";
 import {
   budgetOptions,
-  inquirySchema,
   timelineOptions,
   type Currency,
   type InquiryState,
   type InquiryValues,
-} from "@/schemas/inquiry";
+} from "@/schemas/inquiry-options";
+
+/** Validation code is only needed on submit, so it isn't part of the page's first download. */
+const lazyResolver: Resolver<InquiryValues> = async (values, context, options) => {
+  const [{ zodResolver }, { inquirySchema }] = await Promise.all([
+    import("@hookform/resolvers/zod"),
+    import("@/schemas/inquiry"),
+  ]);
+  return zodResolver(inquirySchema)(values, context, options) as ReturnType<
+    Resolver<InquiryValues>
+  >;
+};
 
 const inputClass =
-  "min-h-12 w-full border-b border-paper/40 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-muted focus:border-lime aria-invalid:border-red-400";
+  "min-h-12 w-full border-b border-fg/40 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-muted focus:border-signal aria-invalid:border-signal";
 
 const countries = [
   "Bangladesh",
@@ -58,7 +67,7 @@ function Field({ label, error, optional, className = "", children }: FieldProps)
       </label>
       {children({ id, describedBy: error ? errorId : undefined, invalid: Boolean(error) })}
       {error && (
-        <p id={errorId} className="mt-2 text-sm text-red-300">
+        <p id={errorId} className="mt-2 text-sm text-accent">
           {error}
         </p>
       )}
@@ -117,7 +126,7 @@ export function ContactForm({
     reset,
     formState: { errors },
   } = useForm<InquiryValues>({
-    resolver: zodResolver(inquirySchema),
+    resolver: lazyResolver,
     defaultValues: {
       fullName: "",
       email: "",
@@ -269,10 +278,10 @@ export function ContactForm({
             {(Object.keys(budgetOptions) as Currency[]).map((code) => (
               <label
                 key={code}
-                className={`slate flex min-h-12 min-w-16 cursor-pointer items-center justify-center border transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-lime ${
+                className={`slate has-focus-visible:outline-lime flex min-h-12 min-w-16 cursor-pointer items-center justify-center border transition-colors has-focus-visible:outline-2 has-focus-visible:outline-offset-2 ${
                   currency === code
-                    ? "border-lime bg-lime text-ink"
-                    : "border-line text-paper hover:border-paper"
+                    ? "border-signal bg-signal text-canvas"
+                    : "border-line text-fg hover:border-fg"
                 }`}
               >
                 <input
@@ -338,25 +347,25 @@ export function ContactForm({
 
       <div className="sm:col-span-2" aria-live="polite">
         {state.status === "saved" && (
-          <p role="status" className="mb-6 border border-lime p-4 leading-relaxed">
-            <strong className="font-medium text-lime">Thank you, we have your inquiry.</strong> The
-            team will read it and reply to the email you gave.
+          <p role="status" className="mb-6 border border-signal p-4 leading-relaxed">
+            <strong className="font-medium text-accent">Thank you, we have your inquiry.</strong>{" "}
+            The team will read it and reply to the email you gave.
           </p>
         )}
         {state.status === "error" && (
-          <p role="alert" className="mb-6 border border-red-400 p-4 leading-relaxed">
+          <p role="alert" className="mb-6 border border-signal p-4 leading-relaxed">
             Something went wrong on our side, and your inquiry was not sent. Please try again.
           </p>
         )}
         {state.status === "rate_limited" && (
-          <p role="alert" className="mb-6 border border-red-400 p-4 leading-relaxed">
+          <p role="alert" className="mb-6 border border-signal p-4 leading-relaxed">
             That&rsquo;s a lot of messages in a short time. Please try again in a few minutes.
           </p>
         )}
         <button
           type="submit"
           disabled={pending}
-          className="group flex min-h-14 w-full items-center justify-between gap-6 bg-lime px-5 font-medium text-ink transition-colors duration-300 hover:bg-paper disabled:cursor-wait disabled:opacity-70 sm:w-auto sm:min-w-72"
+          className="group flex min-h-14 w-full items-center justify-between gap-6 bg-signal px-5 font-medium text-canvas transition-colors duration-300 hover:bg-fg disabled:cursor-wait disabled:opacity-70 sm:w-auto sm:min-w-72"
         >
           {pending ? "Sending" : "Send inquiry"}
           {pending ? (

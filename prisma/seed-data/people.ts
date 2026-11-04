@@ -1,5 +1,5 @@
 /**
- * SAMPLE people and brands, for layout only. None of them are real or connected to Movexa.
+ * SAMPLE people and brands, for layout only. None of them are real or connected to UMEXA.
  * Every record is stored with isSample = true, which shows a visible label on the site.
  */
 

@@ -14,6 +14,8 @@ type Props = {
   sizes: string;
   className?: string;
   loop?: boolean;
+  /** Loads the poster first, for a video at the top of a page */
+  priority?: boolean;
   /** Text over the bottom-left of the frame. Receives whether the video can play. */
   caption?: (available: boolean) => ReactNode;
 };
@@ -25,7 +27,16 @@ const clock = (s: number) =>
  * Click-to-play video. Nothing downloads until the first click, it pauses when scrolled
  * off screen, and if the file can't be played it stays on the poster.
  */
-export function VideoPlayer({ src, poster, alt, sizes, className = "", loop, caption }: Props) {
+export function VideoPlayer({
+  src,
+  poster,
+  alt,
+  sizes,
+  className = "",
+  loop,
+  priority,
+  caption,
+}: Props) {
   const video = useRef<HTMLVideoElement>(null);
   const time = useRef<HTMLSpanElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
@@ -82,7 +93,14 @@ export function VideoPlayer({ src, poster, alt, sizes, className = "", loop, cap
       )}
 
       {(status === "idle" || unavailable) && (
-        <Image src={poster} alt={alt} fill sizes={sizes} className="object-cover" />
+        <Image
+          src={poster}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+        />
       )}
 
       <button
@@ -94,7 +112,7 @@ export function VideoPlayer({ src, poster, alt, sizes, className = "", loop, cap
       >
         {!unavailable && (
           <span
-            className={`flex size-16 items-center justify-center bg-lime text-ink transition-all duration-500 ease-studio group-hover:scale-110 lg:size-24 ${
+            className={`flex size-16 items-center justify-center bg-signal text-canvas transition-all duration-500 ease-studio group-hover:scale-110 lg:size-24 ${
               status === "playing"
                 ? "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
                 : ""
@@ -110,16 +128,16 @@ export function VideoPlayer({ src, poster, alt, sizes, className = "", loop, cap
       </button>
 
       <div
-        className={`gutter pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-linear-to-t from-ink/80 to-transparent pb-4 ${caption ? "pt-24" : "pt-10"}`}
+        className={`gutter pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-linear-to-t from-canvas/85 to-transparent pb-4 ${caption ? "pt-24" : "pt-10"}`}
       >
         <div>{caption?.(!unavailable)}</div>
-        <span aria-hidden ref={time} className="slate shrink-0 text-paper" />
+        <span aria-hidden ref={time} className="slate shrink-0 text-fg" />
       </div>
-      <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-paper/20" />
+      <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-fg/20" />
       <span
         aria-hidden
         ref={bar}
-        className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-lime"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-signal"
       />
     </div>
   );

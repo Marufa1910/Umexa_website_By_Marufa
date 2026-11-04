@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: project.seoDescription,
     path: `/work/${project.slug}`,
     image: project.cover,
+    noindex: project.isSample,
   });
 }
 
@@ -111,6 +112,7 @@ export default async function ProjectPage({ params }: Props) {
         <VideoPlayer
           src={project.video}
           poster={project.cover}
+          priority
           alt={`${project.title} film`}
           sizes="100vw"
           loop
@@ -143,7 +145,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <Reveal className="mt-14 grid gap-6 md:grid-cols-12 lg:mt-24">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="01" label="Overview" />
+            <SectionSlate as="h2" index="01" label="Overview" />
           </div>
           <p
             data-reveal
@@ -155,7 +157,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <Reveal className="mt-16 grid gap-6 md:grid-cols-12 lg:mt-28">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="02" label="Objectives" />
+            <SectionSlate as="h2" index="02" label="Objectives" />
           </div>
           <ol className="md:col-span-9">
             {project.objectives.map((objective, i) => (
@@ -164,7 +166,7 @@ export default async function ProjectPage({ params }: Props) {
                 data-reveal
                 className="grid grid-cols-[2.5rem_1fr] border-t border-line py-5 last:border-b lg:grid-cols-[4rem_1fr]"
               >
-                <span className="accent-serif text-2xl text-lime">{i + 1}</span>
+                <span className="accent-serif text-2xl text-accent">{i + 1}</span>
                 <span className="text-lg leading-snug lg:text-2xl lg:leading-snug">
                   {objective}
                 </span>
@@ -175,7 +177,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <Reveal className="mt-16 grid gap-6 md:grid-cols-12 lg:mt-28">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="03" label="Creative strategy" />
+            <SectionSlate as="h2" index="03" label="Creative strategy" />
           </div>
           <p
             data-reveal
@@ -200,14 +202,14 @@ export default async function ProjectPage({ params }: Props) {
       <section className="gutter py-16 lg:py-28">
         <Reveal className="grid gap-6 md:grid-cols-12">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="04" label="Creative process" />
+            <SectionSlate as="h2" index="04" label="Creative process" />
           </div>
           <ol className="grid gap-8 md:col-span-9 md:grid-cols-3 md:gap-6">
             {project.process.map((step, i) => (
               <li key={step.title} data-reveal className="border-t border-line pt-4">
-                <span className="slate text-lime">Stage {i + 1}</span>
+                <span className="slate text-accent">Stage {i + 1}</span>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">{step.title}</h3>
-                <p className="mt-2 leading-relaxed text-paper/80">{step.copy}</p>
+                <p className="mt-2 leading-relaxed text-fg/80">{step.copy}</p>
               </li>
             ))}
           </ol>
@@ -215,7 +217,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <Reveal className="mt-16 grid gap-6 md:grid-cols-12 lg:mt-24">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="05" label="Final deliverables" />
+            <SectionSlate as="h2" index="05" label="Final deliverables" />
           </div>
           <ul className="md:col-span-9">
             {project.deliverables.map((deliverable) => (
@@ -232,7 +234,7 @@ export default async function ProjectPage({ params }: Props) {
       </section>
 
       <section className="gutter border-t border-line py-16 lg:py-24">
-        <SectionSlate index="06" label="Related projects" />
+        <SectionSlate as="h2" index="06" label="Related projects" />
         <div className="mt-8 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:gap-x-8">
           {related.map((item) => (
             <ProjectCard key={item.slug} project={toProjectCard(item)} />
@@ -240,11 +242,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </section>
 
-      <Link
-        href={`/work/${next.slug}`}
-        className="group relative block overflow-hidden bg-surface"
-        aria-label={`Next project: ${next.title}`}
-      >
+      <Link href={`/work/${next.slug}`} className="group relative block overflow-hidden bg-surface">
         <Image
           src={next.cover}
           alt=""
@@ -254,7 +252,7 @@ export default async function ProjectPage({ params }: Props) {
         />
         <div className="gutter relative flex items-end justify-between gap-4 pt-28 pb-8 lg:pt-52">
           <div>
-            <p className="slate text-paper">Next project</p>
+            <p className="slate text-fg">Next project</p>
             <p className="display mt-3 text-section">{next.title}</p>
           </div>
           <ArrowUpRight

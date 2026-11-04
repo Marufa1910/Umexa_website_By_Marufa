@@ -5,9 +5,9 @@ import type { ComponentProps } from "react";
 type Variant = "lime" | "ink" | "ghost";
 
 const variants: Record<Variant, string> = {
-  lime: "bg-lime text-ink hover:bg-paper",
-  ink: "bg-ink text-paper hover:bg-surface-2",
-  ghost: "border border-line text-paper hover:border-paper",
+  lime: "bg-signal text-canvas hover:bg-fg",
+  ink: "bg-canvas text-fg hover:bg-surface-2",
+  ghost: "border border-fg/50 text-fg hover:border-fg",
 };
 
 type ButtonProps = ComponentProps<typeof Link> & { variant?: Variant };

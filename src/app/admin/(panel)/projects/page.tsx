@@ -95,7 +95,7 @@ async function Projects({ searchParams }: { searchParams: Promise<Search> }) {
           {projects.map((project) => (
             <tr key={project.id} className={rowClass}>
               <td className={cellClass}>
-                <Link href={`/admin/projects/${project.id}/edit`} className="hover:text-lime">
+                <Link href={`/admin/projects/${project.id}/edit`} className="hover:text-accent">
                   {project.title}
                 </Link>
                 <span className="mt-1 flex gap-1">

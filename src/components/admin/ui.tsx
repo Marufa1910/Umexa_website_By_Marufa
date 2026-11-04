@@ -3,11 +3,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const buttonClass =
-  "inline-flex min-h-10 items-center justify-center gap-2 border border-line px-4 text-sm transition-colors hover:border-paper disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-10 items-center justify-center gap-2 border border-line px-4 text-sm transition-colors hover:border-fg disabled:cursor-not-allowed disabled:opacity-50";
 export const primaryButtonClass =
-  "inline-flex min-h-10 items-center justify-center gap-2 bg-lime px-4 text-sm font-medium text-ink transition-colors hover:bg-paper disabled:cursor-wait disabled:opacity-70";
+  "inline-flex min-h-10 items-center justify-center gap-2 bg-signal px-4 text-sm font-medium text-canvas transition-colors hover:bg-fg disabled:cursor-wait disabled:opacity-70";
 const fieldClass =
-  "min-h-10 border border-line bg-ink px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted focus:border-lime aria-invalid:border-red-400";
+  "min-h-10 border border-line bg-canvas px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted focus:border-signal aria-invalid:border-signal";
 export const inputClass = `w-full ${fieldClass}`;
 /** For filter rows, where each control sizes itself and they sit side by side. */
 export const filterClass = fieldClass;
@@ -61,18 +61,18 @@ export function EmptyState({ title, children }: { title: string; children?: Reac
 export function Notice({ children }: { children: ReactNode }) {
   return (
     <div className="mb-6 flex gap-3 border border-line bg-surface p-4 text-sm leading-relaxed">
-      <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-lime" />
+      <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-accent" />
       <div>{children}</div>
     </div>
   );
 }
 
 const badgeStyles: Record<string, string> = {
-  PUBLISHED: "border-lime text-lime",
+  PUBLISHED: "border-signal text-accent",
   DRAFT: "border-line text-muted",
-  NEW: "border-lime text-lime",
-  WON: "border-lime text-lime",
-  LOST: "border-red-400 text-red-300",
+  NEW: "border-signal text-accent",
+  WON: "border-signal text-accent",
+  LOST: "border-signal text-accent",
   ARCHIVED: "border-line text-muted",
 };
 
@@ -80,7 +80,7 @@ export function Badge({ value, label }: { value: string; label?: string }) {
   return (
     <span
       className={`slate inline-block border px-2 py-0.5 whitespace-nowrap ${
-        badgeStyles[value] ?? "border-line text-paper"
+        badgeStyles[value] ?? "border-line text-fg"
       }`}
     >
       {label ?? value.replace(/_/g, " ")}

@@ -81,7 +81,7 @@ async function Inquiries({ searchParams }: { searchParams: Promise<Search> }) {
           {inquiries.map((inquiry) => (
             <tr key={inquiry.id} className={rowClass}>
               <td className={cellClass}>
-                <Link href={`/admin/inquiries/${inquiry.id}`} className="hover:text-lime">
+                <Link href={`/admin/inquiries/${inquiry.id}`} className="hover:text-accent">
                   {inquiry.fullName}
                 </Link>
                 <span className="block text-xs text-muted">

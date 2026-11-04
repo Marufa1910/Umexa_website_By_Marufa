@@ -1,25 +1,21 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, MOTION_OK, useGSAP } from "@/lib/animations/gsap";
+import { useDesktopAnimation } from "@/lib/animations/useDesktopAnimation";
 
-/** Words brighten one by one as the paragraph passes through the viewport. */
+/** Words brighten one by one on large screens. On phones the text is simply there to read. */
 export function ScrubText({ text, className = "" }: { text: string; className?: string }) {
   const root = useRef<HTMLParagraphElement>(null);
 
-  useGSAP(
-    () => {
-      gsap.matchMedia().add(MOTION_OK, () => {
-        gsap.from("[data-word]", {
-          opacity: 0.16,
-          stagger: 0.1,
-          ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top 82%", end: "bottom 55%", scrub: 0.4 },
-        });
-      });
-    },
-    { scope: root },
-  );
+  useDesktopAnimation(root, ({ gsap }) => {
+    gsap.from("[data-word]", {
+      // Starts at a readable contrast for large text, even mid-animation
+      opacity: 0.55,
+      stagger: 0.1,
+      ease: "none",
+      scrollTrigger: { trigger: root.current, start: "top 82%", end: "bottom 55%", scrub: 0.4 },
+    });
+  });
 
   return (
     <p ref={root} className={className}>

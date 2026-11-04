@@ -197,7 +197,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
   const row = await prisma.siteSetting.findUnique({ where: { id: "default" } });
   return {
-    agencyName: row?.agencyName ?? "Movexa",
+    agencyName: row?.agencyName ?? "UMEXA",
     logoUrl: row?.logoUrl ?? null,
     seoTitle: row?.seoTitle ?? null,
     seoDescription: row?.seoDescription ?? null,

@@ -49,7 +49,7 @@ async function Library({ searchParams }: { searchParams: Promise<Search> }) {
             href={tab.href}
             aria-current={tab.active ? "page" : undefined}
             className={`flex min-h-10 items-center border px-3 text-sm ${
-              tab.active ? "border-lime bg-lime text-ink" : "border-line hover:border-paper"
+              tab.active ? "border-signal bg-signal text-canvas" : "border-line hover:border-fg"
             }`}
           >
             {tab.label}
@@ -90,7 +90,7 @@ async function Library({ searchParams }: { searchParams: Promise<Search> }) {
                     {asset.format.toUpperCase()}, {formatBytes(asset.bytes)}
                     {asset.width && asset.height ? `, ${asset.width} x ${asset.height}` : ""}
                   </p>
-                  <p className={asset.alt ? "text-muted" : "text-red-300"}>
+                  <p className={asset.alt ? "text-muted" : "text-accent"}>
                     {asset.alt || "No description yet"}
                   </p>
                   <MediaCardActions id={asset.id} name={name} alt={asset.alt} />

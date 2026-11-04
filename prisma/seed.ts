@@ -181,7 +181,7 @@ async function seedSettings() {
     create: {
       id: "default",
       seoDescription:
-        "Movexa is a creative studio for design, video, motion, 3D, branding, digital marketing and web.",
+        "UMEXA is a creative studio for design, video, motion, 3D, branding, digital marketing and web.",
       showreelUrl: "/media/samples/reel.mp4",
       showreelPoster: "/media/samples/reel-poster.webp",
       showreelSample: true,

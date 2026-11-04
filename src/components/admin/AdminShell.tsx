@@ -47,12 +47,12 @@ export function AdminShell({
           type="button"
           aria-label="Close menu"
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-30 bg-ink/70 lg:hidden"
+          className="fixed inset-0 z-30 bg-fg/50 lg:hidden"
         />
       )}
 
       <div className="min-w-0">
-        <header className="sticky top-0 z-20 flex min-h-14 items-center justify-between gap-4 border-b border-line bg-ink px-4 lg:px-8">
+        <header className="sticky top-0 z-20 flex min-h-14 items-center justify-between gap-4 border-b border-line bg-canvas px-4 lg:px-8">
           <button
             type="button"
             aria-label="Open menu"
@@ -84,7 +84,7 @@ export function NavLink({ href, children }: { href: string; children: ReactNode 
       href={href}
       aria-current={active ? "page" : undefined}
       className={`flex min-h-10 items-center gap-3 px-3 text-sm transition-colors ${
-        active ? "bg-surface-2 text-lime" : "text-paper hover:bg-surface-2"
+        active ? "bg-canvas text-accent" : "text-fg hover:bg-surface-2"
       }`}
     >
       {children}

@@ -1,8 +1,8 @@
-# Movexa
+# UMEXA
 
-Website for Movexa, a creative digital agency. Next.js (App Router), TypeScript, Tailwind CSS, GSAP, Motion and Lenis.
+Website for UMEXA, a creative digital agency. Next.js (App Router), TypeScript, Tailwind CSS, GSAP, Motion and Lenis.
 
-Project status, TODOs and decisions are in [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md).
+Project status, TODOs and decisions are in [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md). To go live, follow [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Run it
 

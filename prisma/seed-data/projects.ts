@@ -69,7 +69,7 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Afterglow: sample motion graphics case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches a motion language for an audio brand.",
+      "A sample case study showing how UMEXA approaches a motion language for an audio brand.",
   },
   {
     slug: "field-bottle",
@@ -120,7 +120,7 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Field Bottle: sample 3D product visualization case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches 3D product visualization for a launch.",
+      "A sample case study showing how UMEXA approaches 3D product visualization for a launch.",
   },
   {
     slug: "liquid-season",
@@ -166,7 +166,7 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Liquid Season: sample digital campaign case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches a seasonal digital campaign for fashion.",
+      "A sample case study showing how UMEXA approaches a seasonal digital campaign for fashion.",
   },
   {
     slug: "halftone-press",
@@ -211,7 +211,7 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Halftone Press: sample graphic design case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches a print identity for a small publisher.",
+      "A sample case study showing how UMEXA approaches a print identity for a small publisher.",
   },
   {
     slug: "form-study",
@@ -256,7 +256,7 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Form Study: sample branding case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches brand identity for a technology startup.",
+      "A sample case study showing how UMEXA approaches brand identity for a technology startup.",
   },
   {
     slug: "monolith",
@@ -301,7 +301,7 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Monolith: sample web and software case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches a marketing site and shared design system.",
+      "A sample case study showing how UMEXA approaches a marketing site and shared design system.",
   },
   {
     slug: "second-skin",
@@ -347,6 +347,6 @@ export const projects: SeedProject[] = [
     ],
     seoTitle: "Second Skin: sample video editing case study",
     seoDescription:
-      "A sample case study showing how Movexa approaches a brand film edit for a beauty company.",
+      "A sample case study showing how UMEXA approaches a brand film edit for a beauty company.",
   },
 ];

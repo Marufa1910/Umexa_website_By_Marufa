@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, MotionConfig } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import { SampleTag } from "@/components/ui/SampleTag";
@@ -12,7 +11,7 @@ export function Testimonials({ items }: { items: TestimonialItem[] }) {
   if (items.length === 0) return null;
 
   return (
-    <MotionConfig reducedMotion="user">
+    <>
       <section className="gutter grid gap-10 py-24 md:grid-cols-12 lg:py-40">
         <div className="md:col-span-4">
           <SectionSlate index="05" label="Client words" />
@@ -25,12 +24,12 @@ export function Testimonials({ items }: { items: TestimonialItem[] }) {
                 key={i}
                 type="button"
                 aria-pressed={active === i}
-                aria-label={`Quote ${i + 1}`}
+                aria-label={`Quote 0${i + 1}`}
                 onClick={() => setActive(i)}
                 className={`slate flex size-11 items-center justify-center border transition-colors duration-300 ${
                   active === i
-                    ? "border-lime bg-lime text-ink"
-                    : "border-line text-muted hover:border-paper hover:text-paper"
+                    ? "border-signal bg-signal text-canvas"
+                    : "border-line text-muted hover:border-fg hover:text-fg"
                 }`}
               >
                 0{i + 1}
@@ -42,13 +41,12 @@ export function Testimonials({ items }: { items: TestimonialItem[] }) {
         {/* All quotes share one grid cell, so the section's height never jumps */}
         <div className="grid md:col-span-8" aria-live="polite">
           {items.map((item, i) => (
-            <motion.figure
+            <figure
               key={i}
-              initial={false}
-              animate={{ opacity: active === i ? 1 : 0, y: active === i ? 0 : 16 }}
-              transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
               aria-hidden={active !== i}
-              className={`col-start-1 row-start-1 ${active === i ? "" : "invisible"}`}
+              className={`col-start-1 row-start-1 transition-[opacity,translate,visibility] duration-700 ease-studio ${
+                active === i ? "visible opacity-100" : "invisible translate-y-4 opacity-0"
+              }`}
             >
               <blockquote className="accent-serif text-[clamp(2rem,4.6vw,4.5rem)] leading-[1.06]">
                 &ldquo;{item.quote}&rdquo;
@@ -68,10 +66,10 @@ export function Testimonials({ items }: { items: TestimonialItem[] }) {
                   <span className="mt-1 block text-muted">{item.role}</span>
                 </span>
               </figcaption>
-            </motion.figure>
+            </figure>
           ))}
         </div>
       </section>
-    </MotionConfig>
+    </>
   );
 }

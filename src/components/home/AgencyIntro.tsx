@@ -5,7 +5,7 @@ import { ScrubText } from "./ScrubText";
 const notes = [
   {
     title: "Our story",
-    copy: "Movexa was built around one frustration: great ideas lose their edge every time they are passed between separate vendors. So we put them under one roof.",
+    copy: "UMEXA was built around one frustration: great ideas lose their edge every time they are passed between separate vendors. So we put them under one roof.",
   },
   {
     title: "What we believe",
@@ -28,8 +28,8 @@ export function AgencyIntro() {
       <Reveal className="mt-16 grid gap-10 border-t border-line pt-8 md:grid-cols-3 md:gap-8 lg:mt-28">
         {notes.map((note) => (
           <div key={note.title} data-reveal>
-            <h3 className="slate text-lime">{note.title}</h3>
-            <p className="mt-4 max-w-md leading-relaxed text-paper/80">{note.copy}</p>
+            <h3 className="slate text-accent">{note.title}</h3>
+            <p className="mt-4 max-w-md leading-relaxed text-fg/80">{note.copy}</p>
           </div>
         ))}
       </Reveal>

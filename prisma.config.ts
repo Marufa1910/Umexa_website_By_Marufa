@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 
 // Local secrets live in .env.local; on Vercel the variables are already set
 config({ path: ".env.local", quiet: true });
@@ -11,6 +11,7 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    // Installing generates the client, which needs no database, so a fresh clone must not fail here
+    url: process.env.DATABASE_URL ?? "",
   },
 });

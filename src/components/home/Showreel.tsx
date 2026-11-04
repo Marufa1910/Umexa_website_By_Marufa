@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { SampleTag } from "@/components/ui/SampleTag";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
-import { DESKTOP_MOTION, gsap, useGSAP } from "@/lib/animations/gsap";
+import { useDesktopAnimation } from "@/lib/animations/useDesktopAnimation";
 
 type Props = { src: string | null; poster: string; sample: boolean };
 
@@ -11,23 +11,18 @@ export function Showreel({ src, poster, sample }: Props) {
   const root = useRef<HTMLElement>(null);
   const frame = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      gsap.matchMedia().add(DESKTOP_MOTION, () => {
-        gsap.from(frame.current, {
-          clipPath: "inset(0% 7% 0% 7%)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top bottom",
-            end: "top 15%",
-            scrub: true,
-          },
-        });
-      });
-    },
-    { scope: root },
-  );
+  useDesktopAnimation(root, ({ gsap }) => {
+    gsap.from(frame.current, {
+      clipPath: "inset(0% 7% 0% 7%)",
+      ease: "none",
+      scrollTrigger: {
+        trigger: root.current,
+        start: "top bottom",
+        end: "top 15%",
+        scrub: true,
+      },
+    });
+  });
 
   return (
     <section ref={root} aria-label="Showreel" className="relative">
@@ -35,7 +30,7 @@ export function Showreel({ src, poster, sample }: Props) {
         <VideoPlayer
           src={src}
           poster={poster}
-          alt="Movexa showreel"
+          alt="UMEXA showreel"
           sizes="100vw"
           loop
           className="aspect-[4/5] sm:aspect-video"

@@ -24,7 +24,7 @@ export default async function ServicesPage() {
         label="What we do"
         lines={[
           "Every craft,",
-          <span key="serif" className="accent-serif text-[1.08em] text-lime">
+          <span key="serif" className="accent-serif text-[1.08em] text-accent">
             one studio.
           </span>,
         ]}
@@ -57,7 +57,7 @@ export default async function ServicesPage() {
                 className="grid gap-2 border-t border-line py-6 last:border-b md:grid-cols-2 md:items-baseline lg:py-8"
               >
                 <h2 className="display text-4xl lg:text-6xl">{item.title}</h2>
-                <p className="text-paper/80 lg:text-lg">{item.copy}</p>
+                <p className="text-fg/80 lg:text-lg">{item.copy}</p>
               </li>
             ))}
           </ul>

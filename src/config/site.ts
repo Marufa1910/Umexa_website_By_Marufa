@@ -2,11 +2,15 @@
  * Fixed site identity. Contact details, socials and the showreel live in the SiteSetting table.
  */
 export const siteConfig = {
-  name: "Movexa",
+  name: "UMEXA",
   tagline: "Creative production studio",
   description:
-    "Movexa is a creative studio for design, video, motion, 3D, branding, digital marketing and web. Project work, monthly retainers and white-label partnerships for ambitious brands.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    "UMEXA is a creative studio for design, video, motion, 3D, branding, digital marketing and web. Project work, monthly retainers and white-label partnerships for ambitious brands.",
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
 } as const;
 
 export const primaryNav = [

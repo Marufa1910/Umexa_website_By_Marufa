@@ -30,7 +30,7 @@ export function PageHero({ index, label, lines, intro, children }: Props) {
           className="settle mt-8 grid md:grid-cols-12 lg:mt-12"
           style={{ "--i": lines.length + 1 } as CSSProperties}
         >
-          <p className="max-w-2xl text-lg leading-snug text-paper/85 md:col-span-9 md:col-start-4 lg:text-2xl lg:leading-snug">
+          <p className="max-w-2xl text-lg leading-snug text-fg/85 md:col-span-9 md:col-start-4 lg:text-2xl lg:leading-snug">
             {intro}
           </p>
         </div>

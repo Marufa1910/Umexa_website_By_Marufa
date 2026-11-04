@@ -7,7 +7,7 @@ type Props = { label?: string; href?: string };
 
 export function FinalCta({ label = "Your turn", href = "/contact" }: Props) {
   return (
-    <section className="gutter bg-lime pt-16 pb-8 text-ink lg:pt-24">
+    <section className="gutter bg-signal pt-16 pb-8 text-canvas lg:pt-24">
       <Reveal>
         <p data-reveal className="slate">
           {label}
@@ -15,7 +15,7 @@ export function FinalCta({ label = "Your turn", href = "/contact" }: Props) {
         <Link
           data-reveal
           href={href}
-          className="group mt-6 flex items-end justify-between gap-4 focus-visible:outline-ink"
+          className="group mt-6 flex items-end justify-between gap-4 focus-visible:outline-canvas"
         >
           <span className="display text-display">
             Let&rsquo;s make it
@@ -29,12 +29,12 @@ export function FinalCta({ label = "Your turn", href = "/contact" }: Props) {
           />
         </Link>
 
-        <ul className="mt-14 grid border-t border-ink md:grid-cols-3 lg:mt-24">
+        <ul className="mt-14 grid border-t border-canvas md:grid-cols-3 lg:mt-24">
           {engagements.map((item) => (
             <li
               key={item.title}
               data-reveal
-              className="border-b border-ink/25 py-5 last:border-b-0 md:border-b-0 md:border-l md:px-5 md:first:border-l-0 md:first:pl-0"
+              className="border-b border-canvas/25 py-5 last:border-b-0 md:border-b-0 md:border-l md:px-5 md:first:border-l-0 md:first:pl-0"
             >
               <h3 className="font-display text-2xl font-medium tracking-tight">{item.title}</h3>
               <p className="mt-1 text-sm">{item.copy}</p>

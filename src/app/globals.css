@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* Movexa palette */
-  --color-ink: #090909;
-  --color-surface: #151515;
-  --color-surface-2: #1c1c1c;
-  --color-line: #292929;
-  --color-paper: #f5f5f0;
-  --color-muted: #999999;
-  --color-lime: #c6ff4d;
+  /* UMEXA palette: Powder Blue, Sweet Corn and Spicy Orange, plus a deep navy for reading text.
+     The three brand colours are too close in contrast to carry text on each other. */
+  --color-canvas: #fbf4db;
+  --color-surface: #84b4e6;
+  --color-surface-2: #cfe1f5;
+  --color-line: rgb(18 35 61 / 0.22);
+  --color-fg: #12233d;
+  --color-muted: #2f3b4c;
+  --color-signal: #dd110a;
+  /* Red text and marks. Sections with a coloured background swap this for a readable colour. */
+  --color-accent: #dd110a;
 
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -24,15 +27,15 @@
 
 @layer base {
   html {
-    background: var(--color-ink);
-    color: var(--color-paper);
+    background: var(--color-canvas);
+    color: var(--color-fg);
     -webkit-text-size-adjust: 100%;
-    scrollbar-color: var(--color-line) var(--color-ink);
+    scrollbar-color: var(--color-surface) var(--color-canvas);
   }
 
   body {
     min-height: 100dvh;
-    background: var(--color-ink);
+    background: var(--color-canvas);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -40,12 +43,12 @@
   }
 
   ::selection {
-    background: var(--color-lime);
-    color: var(--color-ink);
+    background: var(--color-signal);
+    color: var(--color-canvas);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-lime);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
 }
@@ -81,6 +84,14 @@
   }
 }
 
+/* Red on blue, or red on red, is unreadable, so accents inside these change colour */
+.bg-surface {
+  --color-accent: var(--color-fg);
+}
+.bg-signal {
+  --color-accent: var(--color-canvas);
+}
+
 /* Lenis */
 html.lenis,
 html.lenis body {
@@ -108,8 +119,8 @@ html.lenis body {
 /* Hero entrance: CSS rather than GSAP, so it starts on first paint with no
    hydration flash and still resolves if JavaScript never loads. */
 .rise {
-  animation: rise 1.15s var(--ease-studio) both;
-  animation-delay: calc(var(--i, 0) * 85ms + 120ms);
+  animation: rise 0.95s var(--ease-studio) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 40ms);
 }
 .settle {
   animation: settle 1s ease-out both;
@@ -125,6 +136,26 @@ html.lenis body {
     opacity: 0;
     transform: translateY(14px);
   }
+}
+
+/* Scroll reveals: armed by JavaScript only for blocks still below the screen */
+[data-reveal] {
+  transition:
+    opacity 1s ease-out,
+    translate 1s var(--ease-studio);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+.reveal-armed [data-reveal] {
+  opacity: 0;
+  translate: 0 36px;
+  transition: none;
+}
+.wipe {
+  transition: clip-path 1.3s var(--ease-studio);
+}
+.wipe.wipe-armed {
+  clip-path: inset(100% 0% 0% 0%);
+  transition: none;
 }
 
 /* Client marquee: pure CSS, so it costs nothing on the main thread */

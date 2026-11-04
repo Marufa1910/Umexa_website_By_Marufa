@@ -1,7 +1,6 @@
 "use client";
 
 import { Search, X } from "lucide-react";
-import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ProjectCard, type ProjectCardData } from "./ProjectCard";
@@ -81,7 +80,7 @@ export function WorkExplorer({ projects, categories, initialCategory, initialQue
     name === ALL ? projects.length : projects.filter((p) => p.categories.includes(name)).length;
 
   return (
-    <MotionConfig reducedMotion="user">
+    <>
       <div className="gutter border-y border-line py-5">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div role="group" aria-label="Filter by category" className="flex flex-wrap gap-1">
@@ -93,12 +92,12 @@ export function WorkExplorer({ projects, categories, initialCategory, initialQue
                 onClick={() => chooseCategory(name)}
                 className={`flex min-h-10 items-center gap-2 border px-3 text-sm transition-colors duration-300 ${
                   category === name
-                    ? "border-lime bg-lime text-ink"
-                    : "border-line text-paper hover:border-paper"
+                    ? "border-signal bg-signal text-canvas"
+                    : "border-line text-fg hover:border-fg"
                 }`}
               >
                 {name}
-                <span className={`slate ${category === name ? "text-ink/60" : "text-muted"}`}>
+                <span className={`slate ${category === name ? "text-canvas" : "text-muted"}`}>
                   {count(name)}
                 </span>
               </button>
@@ -116,14 +115,14 @@ export function WorkExplorer({ projects, categories, initialCategory, initialQue
               onChange={(e) => changeQuery(e.target.value)}
               placeholder="Search projects"
               aria-label="Search projects"
-              className="min-h-11 w-full border-b border-line bg-transparent pr-8 pl-7 text-base outline-none placeholder:text-muted focus:border-lime [&::-webkit-search-cancel-button]:hidden"
+              className="min-h-11 w-full border-b border-line bg-transparent pr-8 pl-7 text-base outline-none placeholder:text-muted focus:border-signal [&::-webkit-search-cancel-button]:hidden"
             />
             {query && (
               <button
                 type="button"
                 aria-label="Clear search"
                 onClick={() => changeQuery("")}
-                className="absolute top-1/2 right-0 flex size-8 -translate-y-1/2 items-center justify-center text-muted hover:text-paper"
+                className="absolute top-1/2 right-0 flex size-8 -translate-y-1/2 items-center justify-center text-muted hover:text-fg"
               >
                 <X aria-hidden className="size-4" />
               </button>
@@ -133,6 +132,7 @@ export function WorkExplorer({ projects, categories, initialCategory, initialQue
       </div>
 
       <div className="gutter py-12 lg:py-20">
+        <h2 className="sr-only">Projects</h2>
         <p aria-live="polite" className="slate mb-8 text-muted">
           {results.length} {results.length === 1 ? "project" : "projects"}
         </p>
@@ -144,35 +144,31 @@ export function WorkExplorer({ projects, categories, initialCategory, initialQue
             <button
               type="button"
               onClick={reset}
-              className="mt-6 min-h-11 border border-line px-5 text-sm hover:border-paper"
+              className="mt-6 min-h-11 border border-line px-5 text-sm hover:border-fg"
             >
               Show all projects
             </button>
           </div>
         ) : (
           <div className="grid gap-x-6 gap-y-14 md:grid-cols-12 lg:gap-x-8 lg:gap-y-24">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {results.map((project, i) => {
-                const { cell, media, sizes } = pattern[i % pattern.length];
-                return (
-                  <motion.article
-                    key={project.slug}
-                    layout="position"
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
-                    className={cell}
-                  >
-                    <ProjectCard project={project} media={media} sizes={sizes} showFeatured />
-                  </motion.article>
-                );
-              })}
-            </AnimatePresence>
+            {results.map((project, i) => {
+              const { cell, media, sizes } = pattern[i % pattern.length];
+              return (
+                <article key={project.slug} className={cell}>
+                  <ProjectCard
+                    project={project}
+                    media={media}
+                    sizes={sizes}
+                    showFeatured
+                    priority={i === 0}
+                  />
+                </article>
+              );
+            })}
           </div>
         )}
       </div>
-    </MotionConfig>
+    </>
   );
 }
 

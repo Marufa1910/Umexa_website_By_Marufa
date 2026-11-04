@@ -1,7 +1,6 @@
 "use client";
 
-import { useMotionValueEvent, useScroll } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -10,17 +9,31 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * Written straight to the DOM, so scrolling never re-renders React.
  */
 export function ScrollTimecode() {
-  const { scrollYProgress } = useScroll();
   const label = useRef<HTMLSpanElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
 
-  useMotionValueEvent(scrollYProgress, "change", (p) => {
-    const frames = Math.round(p * 120 * 24);
-    if (label.current) {
-      label.current.textContent = `00:${pad(Math.floor(frames / 1440))}:${pad(Math.floor(frames / 24) % 60)}:${pad(frames % 24)}`;
-    }
-    if (bar.current) bar.current.style.transform = `scaleX(${p})`;
-  });
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const { scrollHeight, clientHeight } = document.documentElement;
+      const max = scrollHeight - clientHeight;
+      const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      const frames = Math.round(progress * 120 * 24);
+      if (label.current) {
+        label.current.textContent = `00:${pad(Math.floor(frames / 1440))}:${pad(Math.floor(frames / 24) % 60)}:${pad(frames % 24)}`;
+      }
+      if (bar.current) bar.current.style.transform = `scaleX(${progress})`;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
     <>
@@ -34,7 +47,7 @@ export function ScrollTimecode() {
       <span
         aria-hidden
         ref={bar}
-        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-lime"
+        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal"
       />
     </>
   );

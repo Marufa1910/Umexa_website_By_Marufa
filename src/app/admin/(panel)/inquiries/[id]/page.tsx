@@ -6,7 +6,7 @@ import { ArchiveButton, InquiryStatusForm, NoteForm } from "@/components/admin/I
 import { Badge, formatDate, LoadingState } from "@/components/admin/ui";
 import { requirePermission } from "@/lib/auth/session";
 import { getInquiry } from "@/lib/data/admin";
-import { budgetOptions, timelineOptions } from "@/schemas/inquiry";
+import { budgetOptions, timelineOptions } from "@/schemas/inquiry-options";
 
 export const metadata: Metadata = { title: "Inquiry" };
 
@@ -39,7 +39,7 @@ async function InquiryDetail({ params }: { params: Params }) {
 
   return (
     <>
-      <Link href="/admin/inquiries" className="text-sm text-muted hover:text-paper">
+      <Link href="/admin/inquiries" className="text-sm text-muted hover:text-fg">
         Back to inquiries
       </Link>
       <div className="mt-3 mb-6 flex flex-wrap items-center justify-between gap-3">

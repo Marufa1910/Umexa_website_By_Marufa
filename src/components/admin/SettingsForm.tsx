@@ -47,7 +47,7 @@ export function SettingsForm({
           <MediaField
             name="logoUrl"
             label="Logo"
-            hint="Optional. Without one, the Movexa wordmark is used."
+            hint="Optional. Without one, the UMEXA wordmark is used."
             defaultValue={values.logoUrl}
           />
         </section>

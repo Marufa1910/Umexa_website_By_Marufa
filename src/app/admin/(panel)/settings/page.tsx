@@ -15,7 +15,7 @@ async function Settings() {
     <SettingsForm
       assets={assets}
       values={{
-        agencyName: settings?.agencyName ?? "Movexa",
+        agencyName: settings?.agencyName ?? "UMEXA",
         logoUrl: settings?.logoUrl ?? "",
         contactEmail: settings?.contactEmail ?? "",
         phone: settings?.phone ?? "",

@@ -18,7 +18,7 @@ export function LegalPage({ title, sections }: { title: string; sections: LegalS
             <section key={section.heading} className="border-t border-line py-8">
               <h2 className="font-display text-2xl tracking-tight">{section.heading}</h2>
               {section.body.map((paragraph) => (
-                <p key={paragraph} className="mt-3 max-w-2xl leading-relaxed text-paper/80">
+                <p key={paragraph} className="mt-3 max-w-2xl leading-relaxed text-fg/80">
                   {paragraph}
                 </p>
               ))}

@@ -339,7 +339,7 @@ model InquiryStatusChange {
 /// A single row (id = "default"): one set of site-wide settings
 model SiteSetting {
   id             String   @id @default("default")
-  agencyName     String   @default("Movexa")
+  agencyName     String   @default("UMEXA")
   logoUrl        String?
   contactEmail   String?
   phone          String?

@@ -5,12 +5,12 @@ const lines = [
   { text: "We turn bold", className: "" },
   { text: "ideas into", className: "pl-[9vw]" },
   { text: "powerful visual", className: "" },
-  { text: "experiences.", className: "pl-[18vw] accent-serif text-lime", serif: true },
+  { text: "experiences.", className: "pl-[18vw] accent-serif text-accent", serif: true },
 ];
 
 export function Hero() {
   return (
-    <section className="gutter relative flex min-h-svh flex-col justify-between overflow-clip pt-24 pb-6 lg:pt-28">
+    <section className="gutter relative flex min-h-svh flex-col justify-between overflow-clip bg-surface pt-24 pb-6 lg:pt-28">
       <HeroVisual />
 
       <div className="relative">
@@ -44,7 +44,7 @@ export function Hero() {
           className="settle md:col-span-7 lg:col-span-5 lg:col-start-8"
           style={{ "--i": 5 } as React.CSSProperties}
         >
-          <p className="max-w-lg text-lg leading-snug text-paper/85 lg:text-xl">
+          <p className="max-w-lg text-lg leading-snug text-fg/85 lg:text-xl">
             We combine creative thinking, design and technology to help ambitious brands stand out
             and move forward.
           </p>

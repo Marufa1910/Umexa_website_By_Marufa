@@ -3,13 +3,13 @@ import { Suspense } from "react";
 import { ContactForm, ContactFormFromUrl } from "@/components/contact/ContactForm";
 import { PageHero } from "@/components/ui/PageHero";
 import { getPublishedServices, getSiteSettings } from "@/lib/data/public";
-import { NOT_SURE } from "@/schemas/inquiry";
+import { NOT_SURE } from "@/schemas/inquiry-options";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Tell Movexa about your project. For one-off projects, monthly retainers and white-label partnerships, in Bangladesh and worldwide.",
+    "Tell UMEXA about your project. For one-off projects, monthly retainers and white-label partnerships, in Bangladesh and worldwide.",
   path: "/contact",
 });
 
@@ -32,7 +32,7 @@ export default async function ContactPage() {
         label="Start a project"
         lines={[
           "Tell us what",
-          <span key="serif" className="accent-serif text-[1.08em] text-lime">
+          <span key="serif" className="accent-serif text-[1.08em] text-accent">
             you&rsquo;re making.
           </span>,
         ]}
@@ -45,7 +45,7 @@ export default async function ContactPage() {
               <dt className="slate text-muted">Email</dt>
               <dd className="mt-2 break-all">
                 {email ? (
-                  <a href={`mailto:${email}`} className="hover:text-lime">
+                  <a href={`mailto:${email}`} className="hover:text-accent">
                     {email}
                   </a>
                 ) : (
@@ -57,7 +57,7 @@ export default async function ContactPage() {
               <div>
                 <dt className="slate text-muted">Phone</dt>
                 <dd className="mt-2">
-                  <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="hover:text-lime">
+                  <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="hover:text-accent">
                     {phone}
                   </a>
                 </dd>
@@ -69,7 +69,7 @@ export default async function ContactPage() {
                 {whatsapp ? (
                   <a
                     href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
-                    className="hover:text-lime"
+                    className="hover:text-accent"
                   >
                     {whatsapp}
                   </a>
@@ -93,7 +93,7 @@ export default async function ContactPage() {
                           href={social.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="hover:text-lime"
+                          className="hover:text-accent"
                         >
                           {social.label}
                         </a>
@@ -109,7 +109,7 @@ export default async function ContactPage() {
           <p className="mt-10 max-w-xs text-sm leading-relaxed text-muted">
             We welcome clients in Bangladesh and internationally, for projects, monthly retainers
             and white-label partnerships. See how we handle your details in our{" "}
-            <Link href="/privacy-policy" className="underline hover:text-paper">
+            <Link href="/privacy-policy" className="underline hover:text-fg">
               privacy policy
             </Link>
             .

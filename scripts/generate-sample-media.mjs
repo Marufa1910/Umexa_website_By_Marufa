@@ -1,5 +1,5 @@
 /**
- * Dev-only tool: renders Movexa's SAMPLE artwork procedurally, so the site has
+ * Dev-only tool: renders UMEXA's SAMPLE artwork procedurally, so the site has
  * real image and video files to lay out and test before actual work is supplied.
  * Nothing here depicts a real client. Replace the output via the media library.
  *
@@ -120,9 +120,12 @@ function studio(dx, dy, dz, key, rim) {
 
 /* ---------- looks: (u, v, aspect, t) => [r,g,b] in linear light; u,v in -1..1 ---------- */
 const WHITE = [1, 1, 1];
-const LIME = hex("#c6ff4d");
+const RED = hex("#dd110a");
+const BLUE = hex("#84b4e6");
+const CREAM = hex("#fbf4db");
+const NAVY = hex("#12233d");
 
-function makeChrome({ key = WHITE, rim = LIME, zoom = 1.75, ox = 0, oy = 0 } = {}) {
+function makeChrome({ key = WHITE, rim = RED, zoom = 1.75, ox = 0, oy = 0 } = {}) {
   return (t) => {
     const ca = Math.cos(t * 0.55),
       sa = Math.sin(t * 0.55);
@@ -180,22 +183,17 @@ function makeTorus() {
         dz = 1 / l;
       const hit = march(map, 0, 0, -5.4, dx, dy, dz, 10, 80);
       if (hit < 0) {
-        return [0, 0, 0];
+        return null;
       }
       const x = dx * hit,
         y = dy * hit,
         z = -5.4 + dz * hit;
       const [nx, ny, nz] = normal(map, x, y, z);
       const dn = dx * nx + dy * ny + dz * nz;
-      const [r, g, b] = studio(
-        dx - 2 * dn * nx,
-        dy - 2 * dn * ny,
-        dz - 2 * dn * nz,
-        hex("#dfe3d6"),
-        LIME,
-      );
-      const f = 0.5 + 0.5 * (1 + dn) ** 3;
-      return [r * f, g * f, b * f];
+      const [r, g, b] = studio(dx - 2 * dn * nx, dy - 2 * dn * ny, dz - 2 * dn * nz, CREAM, CREAM);
+      const f = 0.08 + 0.3 * (1 + dn) ** 3;
+      const lit = 0.4 + 0.75 * clamp(ny * 0.6 - nz * 0.65 - nx * 0.3);
+      return [RED[0] * lit + r * f, RED[1] * lit + g * f, RED[2] * lit + b * f];
     };
   };
 }
@@ -250,9 +248,9 @@ function makeTrails({ core, edge, count = 72 }) {
     });
     return (u, v, asp) => {
       const x = u * asp;
-      let r = 0.004,
-        g = 0.004,
-        b = 0.006;
+      let r = NAVY[0],
+        g = NAVY[1],
+        b = NAVY[2];
       for (const L of lines) {
         const env = smooth(-1.9, -0.2, x + L.n * 0.5) * smooth(2.2, 0.5, x - L.n * 0.3);
         const y =
@@ -270,7 +268,7 @@ function makeTrails({ core, edge, count = 72 }) {
   };
 }
 
-function makeHalftone({ ink = [0.9, 0.9, 0.85], accent = LIME, cells = 58 }) {
+function makeHalftone({ ink = CREAM, accent = RED, cells = 58 }) {
   return (t) => (u, v, asp) => {
     const x = u * asp,
       y = v,
@@ -300,15 +298,15 @@ function makeHalftone({ ink = [0.9, 0.9, 0.85], accent = LIME, cells = 58 }) {
     const rad = Math.sqrt(lum) * cell * 0.62;
     const a = smooth(rad + 0.0016, rad - 0.0016, Math.hypot(x - cx, y - cy));
     const col = isAccent ? accent : ink;
-    return [col[0] * a + 0.005, col[1] * a + 0.005, col[2] * a + 0.005];
+    return [0, 1, 2].map((k) => mix(BLUE[k], col[k], a));
   };
 }
 
 function makeBottle() {
-  const bg = hex("#d9d4c6"),
-    matte = hex("#141413"),
-    label = LIME,
-    cap = hex("#2a2a28");
+  const bg = BLUE,
+    matte = NAVY,
+    label = RED,
+    cap = NAVY;
   return (t) => {
     const scene = (x, y, z) => {
       const r = Math.hypot(x, z);
@@ -378,8 +376,8 @@ function makeBottle() {
 }
 
 function makeBlocks() {
-  const deep = hex("#2438c9"),
-    acc = LIME;
+  const deep = BLUE,
+    acc = RED;
   return (t) => {
     const hash = (a, b) => {
       const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453;
@@ -432,7 +430,7 @@ function makeBlocks() {
         oz = -cy * 7.6 + 2.2,
         oy = 7.2;
       const hit = march(map, ox, oy, oz, dx, dy, dz, 26, 170);
-      if (hit < 0) return [0.004, 0.006, 0.02];
+      if (hit < 0) return NAVY;
       const x = ox + dx * hit,
         y = oy + dy * hit,
         z = oz + dz * hit;
@@ -442,7 +440,7 @@ function makeBlocks() {
       const i = Math.floor(x / size),
         j = Math.floor(z / size);
       const isAcc = hash(i + 4, j - 2) > 0.93 && y > 0.05;
-      const base = isAcc ? acc : y < 0.01 ? [0.01, 0.012, 0.03] : deep;
+      const base = isAcc ? acc : y < 0.01 ? NAVY : deep;
       const k = 0.06 + 1.7 * diff + 0.1 * clamp(ny);
       const rim = isAcc ? 0.06 : 0;
       return [base[0] * k + rim, base[1] * k + rim, base[2] * k + rim];
@@ -458,31 +456,42 @@ const LOOKS = {
   torus: makeTorus(),
   silk: makeSilk(EMBER),
   silkBone: makeSilk(BONE),
-  trails: makeTrails({ core: LIME, edge: hex("#f5f5f0") }),
+  trails: makeTrails({ core: RED, edge: CREAM }),
   halftone: makeHalftone({}),
   bottle: makeBottle(),
   blocks: makeBlocks(),
 };
 
-function render(look, t, W, H, SS, grain, seed) {
+function render(look, t, W, H, SS, grain, seed, alpha = false) {
   const prepared = LOOKS[look](t);
   const w = W * SS,
     h = H * SS,
     asp = W / H;
-  const buf = Buffer.alloc(w * h * 3);
+  const channels = alpha ? 4 : 3;
+  const buf = Buffer.alloc(w * h * channels);
   let s = seed >>> 0;
   for (let j = 0; j < h; j++) {
     const v = 1 - (2 * (j + 0.5)) / h;
     for (let i = 0; i < w; i++) {
       const u = (2 * (i + 0.5)) / w - 1;
       const c = prepared(u, v, asp);
+      const o = (j * w + i) * channels;
+      // A look can leave background pixels empty: see-through, or powder blue in video frames
+      if (c === null) {
+        if (!alpha) {
+          buf[o] = 0x84;
+          buf[o + 1] = 0xb4;
+          buf[o + 2] = 0xe6;
+        }
+        continue;
+      }
       const vig = 1 - 0.28 * smooth(0.5, 1.55, Math.hypot(u, v));
       s = (s * 1664525 + 1013904223) >>> 0;
       const n = grain * ((s >>> 16) / 65535 - 0.5);
-      const o = (j * w + i) * 3;
       for (let k = 0; k < 3; k++) {
         buf[o + k] = clamp(aces(c[k] * vig) ** (1 / 2.2) + n) * 255;
       }
+      if (alpha) buf[o + 3] = 255;
     }
   }
   return { buf, w, h };
@@ -497,7 +506,7 @@ const STILLS = [
   { name: "field-bottle", look: "bottle", W: 1600, H: 2000, t: 0.2 },
   { name: "monolith", look: "blocks", W: 1600, H: 1200, t: 0.4 },
   { name: "bone-study", look: "silkBone", W: 1600, H: 1200, t: 3.1 },
-  { name: "hero", look: "torus", W: 1200, H: 1500, t: 0.2, grain: 0 },
+  { name: "hero", look: "torus", W: 1200, H: 1500, t: 0.2, grain: 0, alpha: true },
   // Case-study galleries
   { name: "afterglow-2", look: "trails", W: 1600, H: 1000, t: 2.6 },
   { name: "afterglow-3", look: "trails", W: 1600, H: 2000, t: 4.4 },
@@ -536,10 +545,23 @@ const REEL_SHOTS = [
 
 if (!isMainThread) {
   parentPort.on("message", async (job) => {
-    const { buf, w, h } = render(job.look, job.t, job.W, job.H, job.SS, job.grain, job.seed);
-    const img = sharp(buf, { raw: { width: w, height: h, channels: 3 } }).resize(job.W, job.H, {
-      kernel: "lanczos3",
-    });
+    const { buf, w, h } = render(
+      job.look,
+      job.t,
+      job.W,
+      job.H,
+      job.SS,
+      job.grain,
+      job.seed,
+      job.alpha,
+    );
+    const img = sharp(buf, { raw: { width: w, height: h, channels: job.alpha ? 4 : 3 } }).resize(
+      job.W,
+      job.H,
+      {
+        kernel: "lanczos3",
+      },
+    );
     if (job.format === "webp") await img.webp({ quality: 82, effort: 5 }).toFile(job.out);
     else await img.jpeg({ quality: 94 }).toFile(job.out);
     parentPort.postMessage({ done: job.out });

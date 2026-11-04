@@ -31,7 +31,7 @@ async function Services() {
       {services.map((service) => (
         <tr key={service.id} className={rowClass}>
           <td className={cellClass}>
-            <Link href={`/admin/services/${service.id}/edit`} className="hover:text-lime">
+            <Link href={`/admin/services/${service.id}/edit`} className="hover:text-accent">
               {service.title}
             </Link>
           </td>

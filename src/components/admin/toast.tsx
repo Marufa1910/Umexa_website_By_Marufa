@@ -32,7 +32,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={toast.id}
             role={toast.ok ? "status" : "alert"}
             className={`pointer-events-auto max-w-sm border bg-surface-2 px-4 py-3 text-sm ${
-              toast.ok ? "border-lime" : "border-red-400"
+              toast.ok ? "border-fg" : "border-signal"
             }`}
           >
             {toast.message}

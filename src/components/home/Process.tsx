@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { SectionSlate } from "@/components/ui/SectionSlate";
 import { processSteps } from "@/content/home";
-import { DESKTOP_MOTION, gsap, useGSAP } from "@/lib/animations/gsap";
+import { useDesktopAnimation } from "@/lib/animations/useDesktopAnimation";
 
 /**
  * Laid out as an edit timeline. On desktop the section pins and the playhead scrubs
@@ -14,28 +14,23 @@ export function Process({ index = "04" }: { index?: string }) {
   const track = useRef<HTMLOListElement>(null);
   const playhead = useRef<HTMLSpanElement>(null);
 
-  useGSAP(
-    () => {
-      gsap.matchMedia().add(DESKTOP_MOTION, () => {
-        const distance = () => (track.current?.scrollWidth ?? 0) - window.innerWidth;
-        const timeline = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top top",
-            end: () => `+=${distance()}`,
-            pin: true,
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        });
-        timeline
-          .to(track.current, { x: () => -distance() }, 0)
-          .fromTo(playhead.current, { scaleX: 0 }, { scaleX: 1 }, 0);
-      });
-    },
-    { scope: root },
-  );
+  useDesktopAnimation(root, ({ gsap }) => {
+    const distance = () => (track.current?.scrollWidth ?? 0) - window.innerWidth;
+    const timeline = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: root.current,
+        start: "top top",
+        end: () => `+=${distance()}`,
+        pin: true,
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+      },
+    });
+    timeline
+      .to(track.current, { x: () => -distance() }, 0)
+      .fromTo(playhead.current, { scaleX: 0 }, { scaleX: 1 }, 0);
+  });
 
   return (
     <section
@@ -60,7 +55,7 @@ export function Process({ index = "04" }: { index?: string }) {
         >
           <span
             ref={playhead}
-            className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-lime"
+            className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-signal"
           />
         </div>
 
@@ -73,12 +68,12 @@ export function Process({ index = "04" }: { index?: string }) {
               key={step.title}
               className="grid grid-cols-[3rem_1fr] border-t border-line py-8 last:border-b lg:block lg:w-[48vw] lg:max-w-[52rem] lg:border-t-0 lg:border-l lg:px-8 lg:py-0 lg:last:border-b-0"
             >
-              <span className="accent-serif text-3xl text-lime lg:text-6xl">{i + 1}</span>
+              <span className="accent-serif text-3xl text-accent lg:text-6xl">{i + 1}</span>
               <div className="lg:mt-[min(7vh,4.5rem)]">
                 <h3 className="display text-4xl lg:text-[clamp(3rem,min(7.4vw,13vh),8rem)]">
                   {step.title}
                 </h3>
-                <p className="mt-4 max-w-lg leading-relaxed text-paper/80 lg:mt-6 lg:text-xl">
+                <p className="mt-4 max-w-lg leading-relaxed text-fg/80 lg:mt-6 lg:text-xl">
                   {step.copy}
                 </p>
                 <p className="slate mt-5 text-muted lg:mt-8">You get: {step.output}</p>

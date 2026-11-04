@@ -58,7 +58,7 @@ export const services: Service[] = [
     ],
     seoTitle: "Graphic Design Services",
     seoDescription:
-      "Campaign art, social media systems, print, packaging and presentation design from Movexa.",
+      "Campaign art, social media systems, print, packaging and presentation design from UMEXA.",
   },
   {
     slug: "video-editing",

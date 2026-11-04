@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "How Movexa handles the information you share through this website.",
+  description: "How UMEXA handles the information you share through this website.",
   path: "/privacy-policy",
 });
 
@@ -24,7 +24,7 @@ const sections: LegalSection[] = [
   {
     heading: "Who can see it",
     body: [
-      "Your inquiry can be seen by the Movexa team members who handle new projects, and by the service providers that host our website and database, who process it on our behalf.",
+      "Your inquiry can be seen by the UMEXA team members who handle new projects, and by the service providers that host our website and database, who process it on our behalf.",
     ],
   },
   {

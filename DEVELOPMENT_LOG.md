@@ -1,15 +1,17 @@
-# Movexa: Development Log
+# UMEXA: Development Log
+
+The project was first built as Movexa, and renamed to UMEXA with a new color theme on 2026-11-04. Older entries below use the new name, but still describe the original lime-on-black theme where they mention colors.
 
 ## Status
 
-| Phase                        | State                                       |
-| ---------------------------- | ------------------------------------------- |
-| 1. Foundation                | Done                                        |
-| 2. Public website            | Done, using labelled sample content         |
-| 3. Animations                | Partly done; see TODO for the rest          |
-| 4. Database and backend      | Done locally; no production database yet    |
-| 5. Admin dashboard           | Done, except real Cloudinary uploads        |
-| 6. Production and deployment | Not started. Do not deploy without approval |
+| Phase                        | State                                    |
+| ---------------------------- | ---------------------------------------- |
+| 1. Foundation                | Done                                     |
+| 2. Public website            | Done, using labelled sample content      |
+| 3. Animations                | Partly done; see TODO for the rest       |
+| 4. Database and backend      | Done locally; no production database yet |
+| 5. Admin dashboard           | Done, except real Cloudinary uploads     |
+| 6. Production and deployment | Ready to deploy; waiting on approval     |
 
 ## Development plan
 
@@ -19,7 +21,7 @@
 3. **Remaining animation:** page transitions, horizontal case-study gallery, custom cursor (only if it helps).
 4. **Backend** (done): PostgreSQL, Prisma, Better Auth, roles, Zod, contact form saved to the database, rate limiting, spam protection.
 5. **Admin dashboard** (done, except real uploads): all routes in the brief, on top of the data layer and permissions built in Phase 4. Cloudinary here.
-6. **Production:** sitemap, robots, structured data, OG images, security audit, Core Web Vitals, deployment on approval.
+6. **Production** (done, except deploying): sitemap, robots, structured data, OG images, security audit, Core Web Vitals, deployment on approval.
 
 ## TODO
 
@@ -42,15 +44,12 @@
 
 - [ ] Test real Cloudinary uploads once credentials exist: upload, register, picker, delete. Only the signing has been tested.
 - [ ] Restore or permanently purge soft-deleted items (no screen for this yet; rows stay in the database)
-- [ ] Clear expired `RateLimit` rows on a schedule
 - [ ] Production database, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` and a strong Owner password, set at deployment
 - [ ] Email notification when an inquiry arrives (not in the brief, but inquiries are only visible in the database for now)
 - [ ] Page transitions (needs more than one route to test)
 - [ ] Horizontal project gallery on case-study pages
 - [ ] Custom cursor (desktop only, only if it helps usability)
-- [ ] SEO: sitemap, robots.txt, Organization structured data, Open Graph image
-- [ ] Content-Security-Policy header (basic security headers are already set in `next.config.ts`)
-- [ ] Lighthouse / Core Web Vitals measurement (not measured yet)
+- [ ] Deploy, following `docs/DEPLOYMENT.md`, once approved. Then run Lighthouse on the live URL: local scores vary with machine load.
 - [ ] Real-device testing: all tests so far ran in headless Chrome with emulated viewports
 - [ ] Firefox and Safari testing
 
@@ -81,7 +80,12 @@
 - **Building needs the database:** public pages are prerendered from it, so `DATABASE_URL` must be reachable at build time.
 - **Service list:** the brief's 9 services appear as 7 pages, matching the homepage list. 2D Animation sits inside Motion
   Graphics, and Web Design and Software Development share Web & Software.
-- **Git:** local repository on `main`, with no remote yet, so nothing is backed up off this computer. Commit identity is a placeholder until a real name and email are set.
+- **Sample case studies are hidden from search:** noindex, and left out of the sitemap. A project appears as soon as its Sample switch is off.
+- **CSP allows inline scripts:** nonces would force per-request rendering, which Partial Prerendering rules out. Everything else in the policy is locked down.
+- **Animation libraries load on demand:** phones never download GSAP, Lenis or Motion. Motion only loads on the first hover of the services list. Zod only loads when the contact form is submitted. This is what moved mobile performance.
+- **Theme tokens describe jobs, not colors:** `canvas`, `surface`, `fg`, `muted`, `signal` (fixed red fills) and `accent` (red text). `accent` changes to a readable color inside `bg-surface` and `bg-signal`, because red on blue fails contrast.
+- **Navy is an addition to the brief's three colors:** Powder Blue, Sweet Corn and Spicy Orange have under 2.4:1 contrast against each other (except cream on red), which is too low for reading text.
+- **Local infrastructure still says movexa:** the project folder, the local database name and the local Owner email. They aren't visible to visitors.
 
 ## Admin notes
 
@@ -307,3 +311,45 @@ cannot take real inquiries until the database exists.
 - Filter dropdowns stretched to full width
 
 **Next recommended step:** Phase 3 polish (page transitions, horizontal gallery), then Phase 6: SEO files, security audit, performance and deployment. Add Cloudinary credentials to test uploads.
+
+### 2026-11-04: Phase 6, production readiness, and the UMEXA rebrand
+
+**Completed**
+
+- Renamed Movexa to UMEXA in all code, content, metadata and database text
+- New theme: Powder Blue `#84B4E6`, Sweet Corn `#FBF4DB`, Spicy Orange `#DD110A`, with navy `#12233D` for text. Sample art re-rendered to match.
+- SEO: sitemap, robots.txt, Open Graph image, Organization and WebSite structured data, noindex on sample case studies
+- Security: Content-Security-Policy, HSTS, no-store and noindex on private routes, optimizer limited to the agency's Cloudinary account, startup check for missing secrets, change-password rate limit, expired rate-limit rows cleared
+- Performance: animation libraries load on demand, CSS scroll reveals, early-loading main images
+- Deployment: `vercel.json`, `docs/DEPLOYMENT.md`
+
+**Files**
+
+- New: `src/app/{sitemap.ts,robots.ts,opengraph-image.tsx}`, `src/instrumentation.ts`, `src/components/layout/StructuredData.tsx`, `src/lib/animations/useDesktopAnimation.ts`, `src/components/services/ServicePreview.tsx`, `src/schemas/inquiry-options.ts`, `vercel.json`, `docs/DEPLOYMENT.md`
+- Changed: nearly every component (theme tokens and name), `next.config.ts`, `scripts/generate-sample-media.mjs`
+- Removed: `@gsap/react`
+
+**Tests** (production build, real browser, local PostgreSQL; scripts not in the repo)
+
+- 112 admin checks, 85 security checks and 70 production checks pass on the rebranded site
+- No overflow at 1440, 1024, 768, 390, 360
+- Lighthouse on the final theme: mobile performance 96 to 100, desktop 100, accessibility, best practices and SEO 100. The exception is SEO 69 on sample case studies, which are noindex on purpose. Local scores vary with machine load, so measure again on the live URL.
+- Phones confirmed not to download GSAP, Lenis or Motion
+- HTTPS address: cookies are Secure, use the `__Secure-` prefix, and the proxy accepts them
+- A first build on an empty database works, and empty sections hide themselves
+- A weak or missing secret stops the server starting
+- Fresh copy with no `.env.local`: `npm ci` and a build both pass
+
+**Errors fixed**
+
+- A fresh clone failed at `npm install`, because `prisma generate` required `DATABASE_URL`
+- Red text and marks were unreadable on blue and on red: `accent` now changes color inside those sections
+- Scroll text was too faint on cream; footer wordmark was off the margin
+
+**Not reproduced:** one clean build took 41 minutes with page timeouts. The next builds took about 33 seconds. The system date changed during that run, so the computer sleeping is the likely cause, but this is unproven.
+
+**Audit:** `npm audit --omit=dev` reports 0. The full audit reports 16 moderate issues, all in the ESLint dev tooling (`minimatch`), which never ships to visitors. The suggested fix is a breaking change, so it was left alone.
+
+**Not tested:** a real host, real Cloudinary uploads, real phones, Safari and Firefox.
+
+**Next recommended step:** deploy following `docs/DEPLOYMENT.md`, then Phase 3 polish (page transitions, horizontal gallery).

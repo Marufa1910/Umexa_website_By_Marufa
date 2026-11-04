@@ -6,7 +6,7 @@ import { useState, type FormEvent } from "react";
 import { authClient } from "@/lib/auth/client";
 
 const inputClass =
-  "min-h-12 w-full border-b border-paper/40 bg-transparent py-2 text-lg outline-none transition-colors focus:border-lime";
+  "min-h-12 w-full border-b border-fg/40 bg-transparent py-2 text-lg outline-none transition-colors focus:border-signal";
 
 export function LoginForm() {
   const router = useRouter();
@@ -67,14 +67,14 @@ export function LoginForm() {
         />
       </div>
       {error && (
-        <p role="alert" className="text-sm text-red-300">
+        <p role="alert" className="text-sm text-accent">
           {error}
         </p>
       )}
       <button
         type="submit"
         disabled={pending}
-        className="flex min-h-13 w-full items-center justify-center gap-2 bg-lime font-medium text-ink transition-colors hover:bg-paper disabled:cursor-wait disabled:opacity-70"
+        className="flex min-h-13 w-full items-center justify-center gap-2 bg-signal font-medium text-canvas transition-colors hover:bg-fg disabled:cursor-wait disabled:opacity-70"
       >
         {pending && <LoaderCircle aria-hidden className="size-4 animate-spin" />}
         {pending ? "Signing in" : "Sign in"}

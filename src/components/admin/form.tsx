@@ -110,7 +110,7 @@ function FieldShell({ name, label, hint, children }: FieldShellProps) {
         </p>
       )}
       {error && (
-        <p id={errorId} className="mt-1 text-xs text-red-300">
+        <p id={errorId} className="mt-1 text-xs text-accent">
           {error}
         </p>
       )}
@@ -208,7 +208,7 @@ export function CheckField({
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="mt-0.5 size-4 accent-lime"
+        className="mt-0.5 size-4 accent-signal"
       />
       <span>
         {label}
@@ -241,13 +241,13 @@ export function CheckGroup({
               name={`${name}[]`}
               value={option.value}
               defaultChecked={defaultValue.includes(option.value)}
-              className="size-4 accent-lime"
+              className="size-4 accent-signal"
             />
             {option.label}
           </label>
         ))}
       </div>
-      {errors[name] && <p className="mt-1 text-xs text-red-300">{errors[name]}</p>}
+      {errors[name] && <p className="mt-1 text-xs text-accent">{errors[name]}</p>}
     </fieldset>
   );
 }
@@ -325,7 +325,7 @@ function MediaPicker({
       </button>
       <dialog
         ref={dialog}
-        className="m-auto max-h-[85vh] w-[min(48rem,92vw)] border border-line bg-surface p-5 text-paper backdrop:bg-ink/80"
+        className="m-auto max-h-[85vh] w-[min(48rem,92vw)] border border-line bg-canvas p-5 text-fg backdrop:bg-fg/60"
       >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-display text-xl tracking-tight">Choose a file</h2>
@@ -343,7 +343,7 @@ function MediaPicker({
             <li key={asset.id}>
               <button
                 type="button"
-                className="block w-full border border-line text-left hover:border-lime"
+                className="block w-full border border-line text-left hover:border-signal"
                 onClick={() => {
                   onPick(asset);
                   dialog.current?.close();
@@ -358,7 +358,7 @@ function MediaPicker({
                     className="aspect-video w-full object-cover"
                   />
                 ) : (
-                  <span className="slate flex aspect-video items-center justify-center bg-ink">
+                  <span className="slate flex aspect-video items-center justify-center bg-canvas">
                     Video
                   </span>
                 )}
@@ -480,14 +480,14 @@ export function RowsField({
                         rows={2}
                         value={value}
                         onChange={(e) => change(index, { [column.key]: e.target.value })}
-                        className={`${inputClass} resize-y text-paper`}
+                        className={`${inputClass} resize-y text-fg`}
                       />
                     ) : column.type === "select" ? (
                       <select
                         aria-label={aria}
                         value={value}
                         onChange={(e) => change(index, { [column.key]: e.target.value })}
-                        className={`${inputClass} text-paper`}
+                        className={`${inputClass} text-fg`}
                       >
                         {column.options?.map((option) => (
                           <option key={option.value} value={option.value}>
@@ -502,7 +502,7 @@ export function RowsField({
                           type={column.type === "number" ? "number" : "text"}
                           value={value}
                           onChange={(e) => change(index, { [column.key]: e.target.value })}
-                          className={`${inputClass} text-paper`}
+                          className={`${inputClass} text-fg`}
                         />
                         {column.type === "media" && (
                           <MediaPicker
@@ -566,7 +566,7 @@ export function RowsField({
         <Plus aria-hidden className="size-4" />
         {addLabel}
       </button>
-      {errors[name] && <p className="mt-1 text-xs text-red-300">{errors[name]}</p>}
+      {errors[name] && <p className="mt-1 text-xs text-accent">{errors[name]}</p>}
     </fieldset>
   );
 }
@@ -603,7 +603,7 @@ export function FormDialog({
       <dialog
         ref={dialog}
         onClose={() => setOpen(false)}
-        className="m-auto max-h-[90vh] w-[min(36rem,92vw)] border border-line bg-surface p-5 text-paper backdrop:bg-ink/80"
+        className="m-auto max-h-[90vh] w-[min(36rem,92vw)] border border-line bg-canvas p-5 text-fg backdrop:bg-fg/60"
       >
         <div className="mb-4 flex items-center justify-between gap-4">
           <h2 className="font-display text-xl tracking-tight">{title}</h2>
@@ -669,7 +669,7 @@ export function ActionButton({
       {confirm && (
         <dialog
           ref={dialog}
-          className="m-auto w-[min(26rem,92vw)] border border-line bg-surface p-5 text-paper backdrop:bg-ink/80"
+          className="m-auto w-[min(26rem,92vw)] border border-line bg-canvas p-5 text-fg backdrop:bg-fg/60"
         >
           <p className="leading-relaxed">{confirm}</p>
           <div className="mt-5 flex justify-end gap-2">
@@ -680,7 +680,7 @@ export function ActionButton({
               type="button"
               disabled={pending}
               onClick={run}
-              className="inline-flex min-h-10 items-center justify-center border border-red-400 px-4 text-sm text-red-300 transition-colors hover:bg-red-400 hover:text-ink disabled:opacity-50"
+              className="inline-flex min-h-10 items-center justify-center border border-signal px-4 text-sm text-accent transition-colors hover:bg-signal hover:text-canvas disabled:opacity-50"
             >
               {pending ? "Working" : "Confirm"}
             </button>

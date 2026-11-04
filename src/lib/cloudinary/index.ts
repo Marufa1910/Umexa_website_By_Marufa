@@ -1,7 +1,7 @@
 import "server-only";
 import { v2 as cloudinary } from "cloudinary";
 
-export const FOLDER = "movexa";
+export const FOLDER = "umexa";
 export const IMAGE_FORMATS = ["jpg", "jpeg", "png", "webp", "avif", "gif"];
 export const VIDEO_FORMATS = ["mp4", "webm", "mov"];
 export const MAX_IMAGE_BYTES = 10 * 1024 * 1024;

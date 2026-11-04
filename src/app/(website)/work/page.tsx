@@ -10,7 +10,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Work",
   description:
-    "Selected design, video, motion, 3D, branding, campaign and web projects from Movexa.",
+    "Selected design, video, motion, 3D, branding, campaign and web projects from UMEXA.",
   path: "/work",
 });
 
@@ -25,7 +25,7 @@ export default async function WorkPage() {
         label="Selected work"
         lines={[
           "The work,",
-          <span key="serif" className="accent-serif text-[1.08em] text-lime">
+          <span key="serif" className="accent-serif text-[1.08em] text-accent">
             frame by frame.
           </span>,
         ]}

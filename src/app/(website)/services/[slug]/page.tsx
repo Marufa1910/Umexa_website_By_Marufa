@@ -59,6 +59,7 @@ export default async function ServicePage({ params }: Props) {
       </PageHero>
 
       <ParallaxImage
+        priority
         src={service.preview}
         alt=""
         sizes="100vw"
@@ -68,7 +69,7 @@ export default async function ServicePage({ params }: Props) {
       <section className="gutter py-16 lg:py-28">
         <Reveal className="grid gap-6 md:grid-cols-12">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="01" label="Capabilities" />
+            <SectionSlate as="h2" index="01" label="Capabilities" />
           </div>
           <ul className="md:col-span-9">
             {service.capabilities.map((capability) => (
@@ -85,7 +86,7 @@ export default async function ServicePage({ params }: Props) {
 
         <Reveal className="mt-16 grid gap-6 md:grid-cols-12 lg:mt-28">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="02" label="What you receive" />
+            <SectionSlate as="h2" index="02" label="What you receive" />
           </div>
           <ul className="grid gap-x-6 sm:grid-cols-2 md:col-span-9">
             {service.deliverables.map((deliverable) => (
@@ -104,14 +105,14 @@ export default async function ServicePage({ params }: Props) {
       <section className="gutter bg-surface py-16 lg:py-28">
         <Reveal className="grid gap-6 md:grid-cols-12">
           <div data-reveal className="md:col-span-3">
-            <SectionSlate index="03" label="How it runs" />
+            <SectionSlate as="h2" index="03" label="How it runs" />
           </div>
           <ol className="grid gap-8 sm:grid-cols-2 md:col-span-9 lg:grid-cols-4 lg:gap-6">
             {service.workflow.map((step, i) => (
               <li key={step.title} data-reveal className="border-t border-line pt-4">
-                <span className="accent-serif text-3xl text-lime">{i + 1}</span>
+                <span className="accent-serif text-3xl text-accent">{i + 1}</span>
                 <h3 className="mt-2 font-display text-2xl tracking-tight">{step.title}</h3>
-                <p className="mt-2 leading-relaxed text-paper/80">{step.copy}</p>
+                <p className="mt-2 leading-relaxed text-fg/80">{step.copy}</p>
               </li>
             ))}
           </ol>
@@ -120,7 +121,7 @@ export default async function ServicePage({ params }: Props) {
 
       {work.length > 0 && (
         <section className="gutter py-16 lg:py-28">
-          <SectionSlate index="04" label="Relevant work" />
+          <SectionSlate as="h2" index="04" label="Relevant work" />
           <div className="mt-8 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:gap-x-8">
             {work.map((project) => (
               <ProjectCard key={project.slug} project={toProjectCard(project)} />
@@ -132,7 +133,7 @@ export default async function ServicePage({ params }: Props) {
       <section className="gutter border-t border-line py-16 lg:py-28">
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:col-span-3">
-            <SectionSlate index="05" label="Questions" />
+            <SectionSlate as="h2" index="05" label="Questions" />
           </div>
           <div className="md:col-span-9">
             {service.faq.map((item) => (
@@ -141,10 +142,10 @@ export default async function ServicePage({ params }: Props) {
                   {item.question}
                   <Plus
                     aria-hidden
-                    className="size-5 shrink-0 text-lime transition-transform duration-300 group-open:rotate-45"
+                    className="size-5 shrink-0 text-accent transition-transform duration-300 group-open:rotate-45"
                   />
                 </summary>
-                <p className="max-w-2xl pb-6 leading-relaxed text-paper/80 lg:text-lg">
+                <p className="max-w-2xl pb-6 leading-relaxed text-fg/80 lg:text-lg">
                   {item.answer}
                 </p>
               </details>

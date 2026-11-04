@@ -4,7 +4,7 @@
  */
 
 export const story = [
-  "Movexa was built around one frustration: great ideas lose their edge every time they pass between separate vendors. The strategist briefs the designer, who briefs the editor, who briefs the developer, and something is lost at each step.",
+  "UMEXA was built around one frustration: great ideas lose their edge every time they pass between separate vendors. The strategist briefs the designer, who briefs the editor, who briefs the developer, and something is lost at each step.",
   "So we put those people in one studio. Design, film, motion, 3D, marketing and code work side by side, on the same idea, from the first conversation to the final file.",
 ];
 

@@ -26,13 +26,13 @@ export async function Footer() {
           <p className="slate mb-4 text-muted">Studio</p>
           <ul className="space-y-1">
             <li>
-              <Link href="/" className="block py-1 text-sm hover:text-lime">
+              <Link href="/" className="block py-1 text-sm hover:text-accent">
                 Home
               </Link>
             </li>
             {primaryNav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="block py-1 text-sm hover:text-lime">
+                <Link href={item.href} className="block py-1 text-sm hover:text-accent">
                   {item.label}
                 </Link>
               </li>
@@ -45,7 +45,7 @@ export async function Footer() {
           <ul className="space-y-1 text-sm">
             {email && (
               <li>
-                <a href={`mailto:${email}`} className="block py-1 break-all hover:text-lime">
+                <a href={`mailto:${email}`} className="block py-1 break-all hover:text-accent">
                   {email}
                 </a>
               </li>
@@ -54,14 +54,14 @@ export async function Footer() {
               <li>
                 <a
                   href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
-                  className="block py-1 hover:text-lime"
+                  className="block py-1 hover:text-accent"
                 >
                   WhatsApp
                 </a>
               </li>
             )}
             <li>
-              <Link href="/contact" className="block py-1 hover:text-lime">
+              <Link href="/contact" className="block py-1 hover:text-accent">
                 Start a project
               </Link>
             </li>
@@ -78,7 +78,7 @@ export async function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="block py-1 hover:text-lime"
+                    className="block py-1 hover:text-accent"
                   >
                     {social.label}
                   </a>
@@ -98,7 +98,7 @@ export async function Footer() {
         <ul className="flex gap-6">
           {legalNav.map((item) => (
             <li key={item.href}>
-              <Link href={item.href} className="block py-1 hover:text-paper">
+              <Link href={item.href} className="block py-1 hover:text-fg">
                 {item.label}
               </Link>
             </li>
@@ -110,7 +110,7 @@ export async function Footer() {
         aria-hidden
         className="mt-8 -mb-[0.06em] text-[26.6vw] leading-[0.8] whitespace-nowrap select-none"
       >
-        <Wordmark className="block -translate-x-[0.03em]" />
+        <Wordmark className="block" />
       </div>
     </footer>
   );
