@@ -12,6 +12,7 @@ export default defineConfig({
   },
   datasource: {
     // Installing generates the client, which needs no database, so a fresh clone must not fail here
-    url: process.env.DATABASE_URL ?? "",
+    // Hosts with connection pooling need a direct connection for migrations
+    url: process.env.DIRECT_URL ?? process.env.DATABASE_URL ?? "",
   },
 });

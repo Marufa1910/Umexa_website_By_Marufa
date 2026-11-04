@@ -14,48 +14,43 @@ You need:
 
 ## 1. Create the database
 
-Create a PostgreSQL database and copy its connection string. Many hosts offer two strings:
+Create a PostgreSQL database and copy two connection strings:
 
-- **Pooled:** use this for `DATABASE_URL` on Vercel.
-- **Direct:** migrations may need this. If `prisma migrate deploy` fails on the pooled string, run migrations using the direct one.
+- **Pooled** (on Neon, the host contains `-pooler`): this is `DATABASE_URL`.
+- **Direct:** this is `DIRECT_URL`, used only for migrations.
 
-## 2. Create the Vercel project
+Put both in `.env.deploy`, with your Owner email. This file is not in git. Don't share it.
 
-Import the GitHub repository. Vercel reads `vercel.json`, which runs migrations and then builds:
+## 2. Set up the database, before the first deploy
 
-```bash
-prisma migrate deploy && next build
-```
-
-The database must be reachable during the build, because public pages are prerendered from it.
-
-## 3. Set environment variables
-
-Set these in Vercel for Production, before the first deploy:
-
-| Variable                                                               | Value                                                                    |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `DATABASE_URL`                                                         | Your database connection string                                          |
-| `BETTER_AUTH_SECRET`                                                   | A new random value of at least 32 characters. Never reuse the local one. |
-| `BETTER_AUTH_URL`                                                      | `https://your-domain.com`                                                |
-| `NEXT_PUBLIC_SITE_URL`                                                 | `https://your-domain.com`                                                |
-| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | From your Cloudinary dashboard                                           |
-
-The server refuses to start if `DATABASE_URL` or `BETTER_AUTH_SECRET` is missing or too weak. That is deliberate.
-
-To generate a secret:
+Pages are prerendered from the database during the build, so it needs its tables and content first. This runs the migrations, then creates the Owner account and the labelled sample content:
 
 ```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+npx dotenv -e .env.deploy -- npx prisma migrate deploy
 ```
 
-## 4. Deploy, then add the first Owner
+```bash
+npx dotenv -e .env.deploy -- npx prisma db seed
+```
 
-The first deploy works on an empty database: the site shows its fixed copy and hides empty sections.
+## 3. Create the Vercel project
 
-To create the Owner account, run the seed once from your computer, using the production values. **The seed also adds the labelled sample content.** Delete it in the admin before launch, or replace it with real work.
+Import the GitHub repository. `vercel.json` runs any new migrations and then builds. Before deploying, add these environment variables:
 
-Use a strong, unique `SEED_OWNER_PASSWORD`, and change it after first sign-in under **My account**.
+| Variable             | Value                                          |
+| -------------------- | ---------------------------------------------- |
+| `DATABASE_URL`       | The pooled string                              |
+| `DIRECT_URL`         | The direct string                              |
+| `BETTER_AUTH_SECRET` | From `.env.deploy`. Never reuse the local one. |
+
+The site uses its Vercel address automatically. The server refuses to start if a required value is missing or too weak. That is deliberate.
+
+## 4. Add later
+
+- **Custom domain:** add it in Vercel, then set `BETTER_AUTH_URL` and `NEXT_PUBLIC_SITE_URL` to `https://your-domain.com`, and redeploy.
+- **Cloudinary:** set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`, and redeploy.
+
+Sign in, and change the Owner password under **My account**. Delete the sample content in the admin before going public, or replace it with real work.
 
 ## 5. Check the live site
 

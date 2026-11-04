@@ -6,6 +6,12 @@ import { prisma } from "@/lib/db";
 import { recordAudit } from "@/lib/audit";
 
 export const auth = betterAuth({
+  // On Vercel this falls back to the project's own address until a custom domain is set
+  baseURL:
+    process.env.BETTER_AUTH_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : undefined),
   database: prismaAdapter(prisma, { provider: "postgresql" }),
   emailAndPassword: {
     enabled: true,
