@@ -520,6 +520,12 @@ const STILLS = [
   { name: "monolith-3", look: "blocks", W: 1600, H: 1000, t: 3.5 },
   { name: "bone-study-2", look: "silkBone", W: 1600, H: 2000, t: 5 },
   { name: "bone-study-3", look: "silkBone", W: 1600, H: 1000, t: 7 },
+  { name: "afterglow-4", look: "trails", W: 1600, H: 1000, t: 6.3 },
+  { name: "liquid-season-4", look: "silk", W: 1600, H: 1000, t: 9 },
+  { name: "form-study-4", look: "chromeWarm", W: 1600, H: 1000, t: 5 },
+  { name: "halftone-press-4", look: "halftone", W: 1600, H: 1000, t: 4 },
+  { name: "monolith-4", look: "blocks", W: 1600, H: 1000, t: 5.5 },
+  { name: "bone-study-4", look: "silkBone", W: 1600, H: 1000, t: 10 },
 ];
 const CLIPS = [
   { name: "afterglow", look: "trails" },
@@ -533,6 +539,7 @@ const CLIPS = [
 const CROPS = [
   { name: "field-bottle-2", from: "field-bottle", left: 380, top: 900, width: 840, height: 525 },
   { name: "field-bottle-3", from: "field-bottle", left: 500, top: 170, width: 600, height: 750 },
+  { name: "field-bottle-4", from: "field-bottle", left: 240, top: 1240, width: 1120, height: 700 },
 ];
 const REEL_SHOTS = [
   { look: "trails", secs: 2.4 },

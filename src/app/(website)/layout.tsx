@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/animations/PageTransition";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -11,6 +12,7 @@ export default async function WebsiteLayout({ children }: Readonly<{ children: R
     <>
       <StructuredData settings={settings} />
       <SmoothScroll />
+      <PageTransition />
       <a
         href="#main"
         className="fixed top-2 left-2 z-[60] -translate-y-20 bg-signal px-4 py-3 text-sm font-medium text-canvas focus:translate-y-0"

@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { Reveal } from "@/components/animations/Reveal";
 import { FinalCta } from "@/components/layout/FinalCta";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
+import { ProjectGallery } from "@/components/portfolio/ProjectGallery";
 import { PageHero } from "@/components/ui/PageHero";
 import { SampleTag } from "@/components/ui/SampleTag";
 import { SectionSlate } from "@/components/ui/SectionSlate";
@@ -18,7 +18,6 @@ import {
   getPublishedProjects,
   getRelatedProjects,
 } from "@/lib/data/public";
-import type { MediaItem } from "@/types/content";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -46,45 +45,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-function GalleryItem({
-  item,
-  className,
-  sizes,
-}: {
-  item: MediaItem;
-  className: string;
-  sizes: string;
-}) {
-  if (item.kind === "video") {
-    return (
-      <VideoPlayer
-        src={item.src}
-        poster={item.poster ?? ""}
-        alt={item.alt}
-        sizes={sizes}
-        loop
-        className={className}
-      />
-    );
-  }
-  return <ParallaxImage src={item.src} alt={item.alt} sizes={sizes} className={className} />;
-}
-
 export default async function ProjectPage({ params }: Props) {
   const project = await getProject((await params).slug);
   if (!project) notFound();
 
   const [next, related] = await Promise.all([getNextProject(project), getRelatedProjects(project)]);
-
-  /* Portrait and landscape share a row: 5 and 7 columns fill it, slightly offset */
-  const layout = project.gallery.map((item, i) => {
-    const portrait = item.height > item.width;
-    return {
-      cell: `${portrait ? "md:col-span-5" : "md:col-span-7"} ${i % 2 === 1 ? "md:mt-[8vw]" : ""}`,
-      media: portrait ? "aspect-[4/5]" : "aspect-[4/3]",
-      sizes: portrait ? "(min-width: 768px) 42vw, 100vw" : "(min-width: 768px) 58vw, 100vw",
-    };
-  });
 
   const facts = [
     { label: "Client", value: project.client },
@@ -188,16 +153,7 @@ export default async function ProjectPage({ params }: Props) {
         </Reveal>
       </section>
 
-      <section
-        aria-label="Gallery"
-        className="gutter grid items-start gap-6 md:grid-cols-12 lg:gap-8"
-      >
-        {project.gallery.map((item, i) => (
-          <div key={item.src} className={layout[i].cell}>
-            <GalleryItem item={item} className={layout[i].media} sizes={layout[i].sizes} />
-          </div>
-        ))}
-      </section>
+      <ProjectGallery items={project.gallery} title={project.title} />
 
       <section className="gutter py-16 lg:py-28">
         <Reveal className="grid gap-6 md:grid-cols-12">

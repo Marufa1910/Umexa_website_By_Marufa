@@ -8,7 +8,7 @@ The project was first built as Movexa, and renamed to UMEXA with a new color the
 | ---------------------------- | ---------------------------------------- |
 | 1. Foundation                | Done                                     |
 | 2. Public website            | Done, using labelled sample content      |
-| 3. Animations                | Partly done; see TODO for the rest       |
+| 3. Animations                | Done                                     |
 | 4. Database and backend      | Done locally; no production database yet |
 | 5. Admin dashboard           | Done, except real Cloudinary uploads     |
 | 6. Production and deployment | Ready to deploy; waiting on approval     |
@@ -18,7 +18,7 @@ The project was first built as Movexa, and renamed to UMEXA with a new color the
 1. **Foundation and homepage** (done).
 2. **Public pages** (done): `/work`, `/work/[slug]`, `/services`, `/services/[slug]`, `/about`, `/contact` (UI),
    `/privacy-policy`, `/terms`. Content stays in `src/content` until the database exists.
-3. **Remaining animation:** page transitions, horizontal case-study gallery, custom cursor (only if it helps).
+3. **Remaining animation** (done): page transitions and a horizontal case-study gallery. The custom cursor was left out on purpose, see Decisions.
 4. **Backend** (done): PostgreSQL, Prisma, Better Auth, roles, Zod, contact form saved to the database, rate limiting, spam protection.
 5. **Admin dashboard** (done, except real uploads): all routes in the brief, on top of the data layer and permissions built in Phase 4. Cloudinary here.
 6. **Production** (done, except deploying): sitemap, robots, structured data, OG images, security audit, Core Web Vitals, deployment on approval.
@@ -46,9 +46,6 @@ The project was first built as Movexa, and renamed to UMEXA with a new color the
 - [ ] Restore or permanently purge soft-deleted items (no screen for this yet; rows stay in the database)
 - [ ] Production database, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` and a strong Owner password, set at deployment
 - [ ] Email notification when an inquiry arrives (not in the brief, but inquiries are only visible in the database for now)
-- [ ] Page transitions (needs more than one route to test)
-- [ ] Horizontal project gallery on case-study pages
-- [ ] Custom cursor (desktop only, only if it helps usability)
 - [ ] Deploy, following `docs/DEPLOYMENT.md`, once approved. Then run Lighthouse on the live URL: local scores vary with machine load.
 - [ ] Real-device testing: all tests so far ran in headless Chrome with emulated viewports
 - [ ] Firefox and Safari testing
@@ -80,6 +77,9 @@ The project was first built as Movexa, and renamed to UMEXA with a new color the
 - **Building needs the database:** public pages are prerendered from it, so `DATABASE_URL` must be reachable at build time.
 - **Service list:** the brief's 9 services appear as 7 pages, matching the homepage list. 2D Animation sits inside Motion
   Graphics, and Web Design and Software Development share Web & Software.
+- **No custom cursor:** the brief asks for one only if it improves usability. Cards already have an arrow badge and hover video, so a cursor would add JavaScript and take away nothing but the familiar pointer. Easy to add if wanted.
+- **Page transition has no exit phase:** the curtain plays only as the new page arrives, so it can never delay a click.
+- **Line endings:** `.gitattributes` keeps text files as LF. Without it, Git on Windows converted them to CRLF, which Prettier flagged.
 - **Sample case studies are hidden from search:** noindex, and left out of the sitemap. A project appears as soon as its Sample switch is off.
 - **CSP allows inline scripts:** nonces would force per-request rendering, which Partial Prerendering rules out. Everything else in the policy is locked down.
 - **Animation libraries load on demand:** phones never download GSAP, Lenis or Motion. Motion only loads on the first hover of the services list. Zod only loads when the contact form is submitted. This is what moved mobile performance.
@@ -353,3 +353,28 @@ cannot take real inquiries until the database exists.
 **Not tested:** a real host, real Cloudinary uploads, real phones, Safari and Firefox.
 
 **Next recommended step:** deploy following `docs/DEPLOYMENT.md`, then Phase 3 polish (page transitions, horizontal gallery).
+
+### 2026-11-04: Phase 3, remaining animation
+
+**Completed**
+
+- Page transition: a powder blue curtain with the wordmark lifts as each new page arrives
+- Horizontal case-study gallery: pinned and scroll-driven on large screens, a native swipeable strip everywhere else
+- One more sample gallery image per project (in `prisma/seed-data/projects.ts` and the local database)
+
+**Files**
+
+- New: `src/components/animations/PageTransition.tsx`, `src/components/portfolio/ProjectGallery.tsx`, `.gitattributes`
+- Changed: `src/app/(website)/layout.tsx`, `src/app/(website)/work/[slug]/page.tsx`, `prisma/seed-data/projects.ts`, `scripts/generate-sample-media.mjs`
+
+**Tests** (production build, real browser; scripts not in the repo)
+
+- 28 Phase 3 checks: no curtain on first load, plays on navigation, navigation not delayed, can't catch clicks, leaves no offset, doesn't play when filtering, off with reduced motion
+- All 7 case studies pin. The last item is fully reachable and the page continues afterwards. Video plays in the gallery. Navigating between case studies pins again.
+- 390, 360, 768 and reduced motion: not pinned, swipes natively, all images load, no page overflow
+- Rerun: 70 production, 112 admin and 85 security checks, and no overflow at 5 widths
+- Lighthouse: mobile performance 89 to 97 this run, desktop 100, accessibility 100
+
+**Errors fixed:** CRLF line endings broke multi-line matching and Prettier, now fixed with `.gitattributes`. Gallery images looked blurry on phones because their `sizes` assumed screen width, when items have a fixed height.
+
+**Next recommended step:** deploy following `docs/DEPLOYMENT.md`.
